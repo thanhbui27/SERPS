@@ -2,6 +2,8 @@ const mongodb = require("mongoose");
 const Schema = mongodb.Schema;
 
 const CourseSchema = new Schema({
+    _id : Schema.Types.ObjectId,
+
     name: { type: String, required: true, trim: true },
     totalCredits: { type: Number, required: true},
     headOfDepartment: { type: String, required: true, trim: true },

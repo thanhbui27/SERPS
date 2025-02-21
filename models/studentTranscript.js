@@ -2,6 +2,8 @@ const mongodb = require("mongoose");
 const Schema = mongodb.Schema;
 
 const StudentTranscriptSchema = new Schema({
+    _id : Schema.Types.ObjectId,
+
     studentId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     transcript: [{
         year: { type: Number, required: true },
