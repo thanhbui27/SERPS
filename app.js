@@ -7,6 +7,11 @@ const express = require("express");
 const logger = require("morgan");
 const mongoClient = require("mongoose");
 
+const routes = require("./routes");
+const passport = require("passport");
+const checkHeaders = require("./middlewares/checkHeaders");
+
+require('./middlewares/passport')
 
 mongoClient
   .connect(
@@ -24,7 +29,7 @@ mongoClient
 
 const app = express();
 
-const routes = require("./routes");
+
 
 
 
@@ -32,7 +37,8 @@ const routes = require("./routes");
 app.use(cors());
 app.use(logger("dev"));
 app.use(bodyParser.json());
-
+app.use(passport.initialize());
+app.use(checkHeaders);
 // Routes
 app.use("/api/v1/", routes);
 
