@@ -7,11 +7,17 @@ const express = require("express");
 const logger = require("morgan");
 const mongoClient = require("mongoose");
 
-const routes = require("./routes");
-const passport = require("passport");
 const checkHeaders = require("./middlewares/checkHeaders");
 
-require('./middlewares/passport')
+const passport =  require('./middlewares/passport')
+
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger/swagger");
+
+
+const apiRouters = require("./routes");
+
+
 
 mongoClient
   .connect(
@@ -31,16 +37,18 @@ const app = express();
 
 
 
-
-
 // Middlewares
 app.use(cors());
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(checkHeaders);
+
 // Routes
-app.use("/api/v1/", routes);
+app.use("/api/v1", apiRouters);
+
+app.use("/api/v1/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 // Routes
 app.get("/", (req, res, next) => {

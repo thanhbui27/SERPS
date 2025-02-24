@@ -3,7 +3,6 @@ const mongodb = require("mongoose");
 const Schema = mongodb.Schema;
 
 const ClassSchema = new Schema({
-    _id : Schema.Types.ObjectId,
     year: { type: Number, required: true },
     semester: { type: Number, required: true },
     unitId : {type : Schema.Types.ObjectId, ref : 'Unit', required : true},

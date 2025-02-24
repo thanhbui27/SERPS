@@ -4,7 +4,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const { JWT_SECRET, auth } = require("../configs");
 
-const User = require("../models/User");
+const User = require("../models/userModel");
 
 var opts = {}
 
@@ -38,19 +38,22 @@ passport.use(
     },
     async (email, password, done) => {
       try {
-
         const user = await User.findOne({ email });
+ 
 
-        if (!user) return done(null, false);
-
+        if (!user) {
+          return done(null, false, { msg : "Email not found" })
+        };
         const isCorrectPassword = await user.isValidPassword(password);
 
-        if (!isCorrectPassword) return done(null, false);
+        if (!isCorrectPassword) return done(null, false,{ msg : "Incorrect password" });
 
         done(null, user);
       } catch (error) {
-        done(error, false);
+        done(error, false, { msg : "Email or password Incorrect password" });
       }
     }
   )
 );
+
+module.exports = passport;
