@@ -1,6 +1,6 @@
 const swaggerJSDoc = require("swagger-jsdoc");
 const { signinSchema, signinResponse } = require("./schema/userLoginSchemaUI");
-const { userResponse, UserSchema } = require("./Schema/UserSchemaUI");
+const { UserSchema, userResponse } = require("./schema/userSchemaUI");
 
 const options = {
   definition: {
