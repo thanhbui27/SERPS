@@ -26,8 +26,10 @@ UserSchema.pre('save', async function(next) {
 
     // Generate a salt
     const salt = await bcrypt.genSalt(10)
+
     // Generate a password hash (salt + hash)
     const passwordHashed = await bcrypt.hash(this.password, salt)
+
     // Re-assign password hashed
     this.password = passwordHashed
 
@@ -40,7 +42,8 @@ UserSchema.pre('save', async function(next) {
 
 UserSchema.methods.isValidPassword = async function(newPassword) {
   try {
-    return await bcrypt.compare(newPassword, this.password)
+    return newPassword === this.password
+    //return await bcrypt.compare(newPassword, this.password)
   } catch (error) {
     throw new Error(error)
   }
