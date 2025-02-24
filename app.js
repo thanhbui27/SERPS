@@ -38,7 +38,15 @@ const app = express();
 
 
 // Middlewares
-app.use(cors());
+const allowedOrigins = process.env.BASE_URL || "http://localhost:3000/api/v1";
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true
+  })
+);
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(passport.initialize());
