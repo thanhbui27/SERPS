@@ -2,8 +2,6 @@ const mongodb = require("mongoose");
 const Schema = mongodb.Schema;
 
 const AssignmentSchema = new Schema({
-    _id : Schema.Types.ObjectId,
-
     unitId: { type: Schema.Types.ObjectId, ref: 'Unit', required: true },
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },

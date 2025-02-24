@@ -2,9 +2,7 @@ const mongodb = require("mongoose");
 const Schema = mongodb.Schema;
 
 const StudentTranscriptSchema = new Schema({
-    _id : Schema.Types.ObjectId,
-
-    studentId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    studentId: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
     transcript: [{
         year: { type: Number, required: true },
         semester: { type: Number, required: true },

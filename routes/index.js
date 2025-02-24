@@ -4,7 +4,6 @@ const userRoute = require("./user");
 
 const router = express.Router();
 
-
-router.use("/users", userRoute);
+router.use("/", userRoute);
 
 module.exports = router;
