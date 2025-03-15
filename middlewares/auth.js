@@ -1,21 +1,23 @@
-const passport = require('passport');
-const Roles = require('../constants/roles');
+const passport = require("passport");
 
-const protect = passport.authenticate("jwt", { session: false })
-  
-const isAdmin = (req, res, next) => {
-    if (!req.user) {
-        return res.status(401).json({ message: "Unauthorized" });
-    }
+const protect = passport.authenticate("jwt", { session: false });
 
-    if (req.user.role !== Roles.ADMIN) {
-        return res.status(403).json({ message: "Access denied! Admins only." });
-    }
+const authorization = (role) => (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+
+  if (req.user.role !== role) {
+    console.log(req.user.role);
+    return res
+      .status(403)
+      .json({ success: false, message: "Access denied! " + role + " only." });
+  }
 
   next();
-}
+};
 
 module.exports = {
-    protect,
-    isAdmin
-}
+  protect,
+  authorization,
+};

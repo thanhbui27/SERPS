@@ -1,6 +1,7 @@
 const swaggerJSDoc = require("swagger-jsdoc");
 const { signinSchema, signinResponse } = require("./schema/userLoginSchemaUI");
 const { UserSchema, userResponse } = require("./schema/userSchemaUI");
+const { courseResponse, courseSchema } = require("./schema/courseSchemaUI");
 
 const options = {
   definition: {
@@ -16,26 +17,29 @@ const options = {
       },
     ],
     components: {
-        schemas: {
-            SigninRequest: signinSchema,
-            UserSchema : UserSchema
-          },
-          responses: {
-            SigninSuccess: signinResponse[200],
-            BadRequest: signinResponse[400],
-            Unauthorized: signinResponse[401],
-            UserSchemaResponse : userResponse[200],
-          },
-        securitySchemes: {
-          bearerAuth: {
-            type: "http",
-            scheme: "bearer",
-            bearerFormat: "JWT",
-          },
+      schemas: {
+        SigninRequest: signinSchema,
+        UserSchema: UserSchema,
+        CourseSchema: courseSchema,
+      },
+      responses: {
+        SigninSuccess: signinResponse[200],
+        BadRequest: signinResponse[400],
+        Unauthorized: signinResponse[401],
+        UserSchemaResponse: userResponse[200],
+        CourseSchemaResponse: courseResponse[200],
+        CourseSchemaCreateResponse: courseResponse[201],
+      },
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
         },
       },
+    },
   },
-  apis: ["./routes/*.js"], 
+  apis: ["./routes/*.js"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
