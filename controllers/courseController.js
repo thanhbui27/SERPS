@@ -42,6 +42,7 @@ const createCourse = async (req, res) => {
 
 const createManyCourses = async (req, res) => {
   try {
+    console.log(req.body);
     const options = { ordered: true };
     const courses = await Course.insertMany(req.body, options);
     return res

@@ -56,32 +56,4 @@ router
   .route("/course/createCourse")
   .post(protect, authorization(Roles.ADMIN), courseController.createCourse);
 
-/**
- * @swagger
- * /course/createManyCourse:
- *   post:
- *     summary : insert many course course
- *     description : router for test insert many course
- *     tags : [course]
- *     security :
- *      - bearerAuth : []
- *     requestBody:
- *       required : true
- *       content:
- *         application/json:
- *           schema:
- *             $ref : '#/components/schemas/CourseSchema'
- *     responses:
- *       201:
- *         $ref: '#/components/responses/CourseSchemaCreateResponse'
- *
- */
-router
-  .route("/course/createManyCourse")
-  .post(
-    protect,
-    authorization(Roles.ADMIN),
-    courseController.createManyCourses
-  );
-
 module.exports = router;

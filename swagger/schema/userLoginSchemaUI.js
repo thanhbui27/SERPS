@@ -1,8 +1,8 @@
 const signinSchema = {
   type: "object",
   properties: {
-    email: { type: "string", example: "williamjackson@edu.com" },
-    password: { type: "string", example: "hashed_password" },
+    email: { type: "string", example: "emma.roberts@example.com" },
+    password: { type: "string", example: "adminsecure" },
   },
   required: ["email", "password"],
 };
