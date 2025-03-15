@@ -9,19 +9,16 @@ const mongoClient = require("mongoose");
 
 const checkHeaders = require("./middlewares/checkHeaders");
 
-const passport =  require('./middlewares/passport')
+const passport = require("./middlewares/passport");
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger/swagger");
 
-
 const apiRouters = require("./routes");
-
-
 
 mongoClient
   .connect(
-    "mongodb+srv://bthanh2001:bthanh2001@cluster0.vy2vv.mongodb.net/SERPS?retryWrites=true&w=majority",
+    "mongodb+srv://SERPS:SERPS@cluster0.rjgj9.mongodb.net/SERPS?retryWrites=true&w=majority",
     {
       useCreateIndex: true,
       useNewUrlParser: true,
@@ -35,8 +32,6 @@ mongoClient
 
 const app = express();
 
-
-
 // Middlewares
 const allowedOrigins = process.env.BASE_URL || "http://localhost:3000/api/v1";
 
@@ -44,7 +39,7 @@ app.use(
   cors({
     origin: allowedOrigins,
     methods: "GET,POST,PUT,DELETE",
-    credentials: true
+    credentials: true,
   })
 );
 app.use(logger("dev"));
@@ -55,15 +50,18 @@ app.use(checkHeaders);
 // Routes
 app.use("/api/v1", apiRouters);
 
-const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css"
+const CSS_URL =
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 
-app.use("/api/v1/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
-  customCss:
-      '.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }',
-  customCssUrl: CSS_URL,
-}
-))
-
+app.use(
+  "/api/v1/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    customCss:
+      ".swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }",
+    customCssUrl: CSS_URL,
+  })
+);
 
 // Routes
 app.get("/", (req, res, next) => {
@@ -97,4 +95,3 @@ const port = app.get("port") || 3000;
 app.listen(port, () => console.log(`Server is listening on port ${port}`));
 
 module.exports = app;
-

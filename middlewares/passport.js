@@ -15,7 +15,6 @@ passport.use(
   new JwtStrategy(opts, async (jwt_payload, done) => {
     try {
       const user = await User.findById(jwt_payload.sub);
-      console.log("user ");
       if (!user)
         return done(null, false, { success: false, message: "Unauthorized" });
 
@@ -35,7 +34,7 @@ passport.use(
     async (email, password, done) => {
       try {
         const user = await User.findOne({ email });
-
+        console.log("aaaa", user);
         if (!user) {
           return done(null, false, { msg: "Email not found" });
         }
