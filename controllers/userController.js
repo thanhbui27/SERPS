@@ -38,16 +38,16 @@ const createUser = async (req, res, next) => {
   try {
     let oldUser = await User.find({user_id : req.body.user_id, username : req.body.username, email : req.body.email, phone : req.body.phone});
     if(oldUser.length > 0) {
-      return res.status(400).json({ message : "User is existed!" });
+      return res.status(400).json({ success: false ,message : "User is existed!" });
     }
   
     let newUser = new User(req.body);
   
    await newUser.save();
 
-    return res.status(201).json({ user: newUser });
+    return res.status(201).json({success: true, user: newUser });
   }catch (error) {
-    return res.status(400).json({ message : error.message });
+    return res.status(400).json({success: false, message : error.message });
   }
  
 };
@@ -59,12 +59,12 @@ const findOneUser = async (req, res, next) => {
     let user = await User.findById(userID);
 
     if(!user) {
-      return res.status(404).json({ message : "User is not found!" });
+      return res.status(404).json({success: false, message : "User is not found!" });
     }
 
-    return res.status(200).json({ user });
+    return res.status(200).json({success: true, user });
   }catch (error) {
-    return res.status(400).json({ message : error.message });
+    return res.status(400).json({success: false, message : error.message });
   }
 }
 
@@ -78,17 +78,25 @@ const updateUser = async (req, res, next) => {
       const updatedUser = await User.findByIdAndUpdate(userID, updateData, { new: true });
 
       if (!updatedUser) {
-          return res.status(404).json({ message: "User not found!"  });
+          return res.status(404).json({success: false, message: "User not found!"  });
       }
 
-      return res.status(200).json({ message: "User updated successfully!", user: updatedUser });
+      return res.status(200).json({ success: true, message: "User updated successfully!", user: updatedUser });
 
   } catch (error) {
-      return res.status(400).json({ message: error.message});
+      return res.status(400).json({ success: false, message: error.message});
   }
 };
 
+const findAllTeachers = async (req, res, next) => {
+  try {
+    let teachers = await User.find({role : "teacher"});
 
+    return res.status(200).json({success: true, teachers});
+  }catch (error) {
+    return res.status(400).json({success: false, message : error.message });
+  }
+}
 
 
 const secret = async (req, res, next) => {
@@ -101,5 +109,6 @@ module.exports = {
   secret,
   createUser,
   findOneUser,
-  updateUser
+  updateUser,
+  findAllTeachers
 };

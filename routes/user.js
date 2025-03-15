@@ -1,22 +1,28 @@
-const express = require('express')
-// const router = express.Router()
-const router = require('express-promise-router')()
+const router = require("express-promise-router")();
 
-const UserController = require('../controllers/userController')
+const UserController = require("../controllers/userController");
 
-const { signinSchema, signinResponse } = require("../swagger/schema/userLoginSchemaUI");
-const { validateBody, validateParam, schemas } = require('../helpers/routerHelpers')
+const {
+  signinSchema,
+  signinResponse,
+} = require("../swagger/schema/userLoginSchemaUI");
+const {
+  validateBody,
+  validateParam,
+  schemas,
+} = require("../helpers/routerHelpers");
 
-const passport = require('passport')
-const { protect, isAdmin } = require('../middlewares/auth')
+const passport = require("passport");
+const Roles = require("../constants/roles");
+const { protect, authorization } = require("../middlewares/auth");
 
-                       
 /**
  * @swagger
  * /signin:
  *   post:
  *     summary: Login and receive JWT tokens
  *     description: Check the account and password, if valid, the JWT token will be returned.
+ *     tags: [Login]
  *     requestBody:
  *       required: true
  *       content:
@@ -30,9 +36,14 @@ const { protect, isAdmin } = require('../middlewares/auth')
  *         $ref: '#/components/responses/BadRequest'
  *       401:
  *         $ref: '#/components/responses/Unauthorized'
- */                        
-router.route('/signin').post(validateBody(schemas.authSignInSchema), passport.authenticate('local', { session: false }), UserController.signIn)
-
+ */
+router
+  .route("/signin")
+  .post(
+    validateBody(schemas.authSignInSchema),
+    passport.authenticate("local", { session: false }),
+    UserController.signIn
+  );
 
 /**
  * @swagger
@@ -52,7 +63,7 @@ router.route('/signin').post(validateBody(schemas.authSignInSchema), passport.au
  *         description: Unauthorized
  */
 
-router.route('/users').get(protect,UserController.index)
+router.route("/users").get(protect, UserController.index);
 
 /**
  * @swagger
@@ -78,7 +89,14 @@ router.route('/users').get(protect,UserController.index)
  *       401:
  *         description: Unauthorized
  */
-router.route('/users/:userID').get(protect,isAdmin,validateParam(schemas.idSchema,'userID'),UserController.findOneUser)
+router
+  .route("/users/:userID")
+  .get(
+    protect,
+    authorization(Roles.ADMIN),
+    validateParam(schemas.idSchema, "userID"),
+    UserController.findOneUser
+  );
 
 /**
  * @swagger
@@ -103,10 +121,31 @@ router.route('/users/:userID').get(protect,isAdmin,validateParam(schemas.idSchem
  *       401:
  *         description: Unauthorized
  */
-router.route('/users/createUser').post(protect,isAdmin, UserController.createUser)
+router
+  .route("/users/createUser")
+  .post(protect, authorization(Roles.ADMIN), UserController.createUser);
 
+/**
+ * @swagger
+ * /users/findAllTeachers:
+ *  get:
+ *   summary: Get all teachers
+ *   description: Get all teachers
+ *   tags: [Users]
+ *   security:
+ *     - bearerAuth: []
+ *   responses:
+ *     200:
+ *       $ref: '#/components/responses/UserSchemaResponse'
+ *     400:
+ *       description: Invalid request
+ *     401:
+ *       description: Unauthorized
+ */
 
-
+router
+  .route("/users/findAllTeachers")
+  .get(protect, UserController.findAllTeachers);
 
 /**
  * @swagger
@@ -138,16 +177,17 @@ router.route('/users/createUser').post(protect,isAdmin, UserController.createUse
  *       401:
  *         description: Unauthorized
  */
-router.route('/users/:userID').put(protect,isAdmin,validateParam(schemas.idSchema,'userID'),UserController.updateUser)
-
-
-router.route('/users/secret').get(
-    
-    passport.authenticate('jwt', { session: false }),
-    UserController.secret
+router
+  .route("/users/:userID")
+  .put(
+    protect,
+    authorization(Roles.ADMIN),
+    validateParam(schemas.idSchema, "userID"),
+    UserController.updateUser
   );
 
+router
+  .route("/users/secret")
+  .get(passport.authenticate("jwt", { session: false }), UserController.secret);
 
-
-
-module.exports = router
+module.exports = router;

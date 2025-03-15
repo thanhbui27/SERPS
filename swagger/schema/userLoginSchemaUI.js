@@ -1,7 +1,7 @@
 const signinSchema = {
   type: "object",
   properties: {
-    email: { type: "string", example: "johndoe@edu.com" },
+    email: { type: "string", example: "williamjackson@edu.com" },
     password: { type: "string", example: "hashed_password" },
   },
   required: ["email", "password"],
@@ -16,7 +16,11 @@ const signinResponse = {
           type: "object",
           properties: {
             success: { type: "boolean", example: true },
-            token: { type: "string", example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2I4NTA4ZDNmZmMwY2EwOTgxYzdhNmYiLCJlbWFpbCI6Implc3NpY2F3aGl0ZUBlZHUuY29tIiwic3ViIjoiNjdiODUwOGQzZmZjMGNhMDk4MWM3YTZmIiwiaWF0IjoxNzQwMzkxMTIwMzE3LCJleHAiOjE3NDA0Nzc1MjAzMTd9.VDSj2aWgurdGb2lBDjZ6i8_-WnT-G6UGYJES40DkPZQ" },
+            token: {
+              type: "string",
+              example:
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2I4NTA4ZDNmZmMwY2EwOTgxYzdhNmYiLCJlbWFpbCI6Implc3NpY2F3aGl0ZUBlZHUuY29tIiwic3ViIjoiNjdiODUwOGQzZmZjMGNhMDk4MWM3YTZmIiwiaWF0IjoxNzQwMzkxMTIwMzE3LCJleHAiOjE3NDA0Nzc1MjAzMTd9.VDSj2aWgurdGb2lBDjZ6i8_-WnT-G6UGYJES40DkPZQ",
+            },
           },
         },
       },
@@ -53,7 +57,7 @@ const signinResponse = {
         },
       },
     },
-  },   
+  },
 };
 
 module.exports = { signinSchema, signinResponse };

@@ -6,28 +6,24 @@ const { JWT_SECRET, auth } = require("../configs");
 
 const User = require("../models/userModel");
 
-var opts = {}
+var opts = {};
 
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = JWT_SECRET;
-
-
 // Passport Jwt
 passport.use(
-  new JwtStrategy(
-   opts,
-    async (jwt_payload, done) => {
-      try {
-        const user = await User.findById(jwt_payload.sub);
+  new JwtStrategy(opts, async (jwt_payload, done) => {
+    try {
+      const user = await User.findById(jwt_payload.sub);
+      console.log("user ");
+      if (!user)
+        return done(null, false, { success: false, message: "Unauthorized" });
 
-        if (!user) return done(null, false);
-
-        done(null, user);
-      } catch (error) {
-        done(error, false);
-      }
+      done(null, user);
+    } catch (error) {
+      done(error, false);
     }
-  )
+  })
 );
 
 // Passport local
@@ -39,18 +35,18 @@ passport.use(
     async (email, password, done) => {
       try {
         const user = await User.findOne({ email });
- 
 
         if (!user) {
-          return done(null, false, { msg : "Email not found" })
-        };
+          return done(null, false, { msg: "Email not found" });
+        }
         const isCorrectPassword = await user.isValidPassword(password);
 
-        if (!isCorrectPassword) return done(null, false,{ msg : "Incorrect password" });
+        if (!isCorrectPassword)
+          return done(null, false, { msg: "Incorrect password" });
 
         done(null, user);
       } catch (error) {
-        done(error, false, { msg : "Email or password Incorrect password" });
+        done(error, false, { msg: "Email or password Incorrect password" });
       }
     }
   )
