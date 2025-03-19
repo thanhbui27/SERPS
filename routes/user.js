@@ -13,7 +13,7 @@ const {
 } = require("../helpers/routerHelpers");
 
 const passport = require("passport");
-const Roles = require("../constants/roles");
+const { Roles } = require("../constants/roles");
 const { protect, authorization } = require("../middlewares/auth");
 
 /**

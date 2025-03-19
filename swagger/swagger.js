@@ -2,6 +2,7 @@ const swaggerJSDoc = require("swagger-jsdoc");
 const { signinSchema, signinResponse } = require("./schema/userLoginSchemaUI");
 const { UserSchema, userResponse } = require("./schema/userSchemaUI");
 const { courseResponse, courseSchema } = require("./schema/courseSchemaUI");
+const responseSchema = require("./schema/schemaResponse");
 
 const options = {
   definition: {
@@ -24,8 +25,9 @@ const options = {
       },
       responses: {
         SigninSuccess: signinResponse[200],
-        BadRequest: signinResponse[400],
-        Unauthorized: signinResponse[401],
+        SuccessRequest: responseSchema[200],
+        BadRequest: responseSchema[400],
+        Unauthorized: responseSchema[401],
         UserSchemaResponse: userResponse[200],
         CourseSchemaResponse: courseResponse[200],
         CourseSchemaCreateResponse: courseResponse[201],

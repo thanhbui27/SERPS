@@ -3,7 +3,7 @@ const router = require("express").Router();
 const { createManyUser } = require("../controllers/userController");
 const courseController = require("../controllers/courseController");
 const { protect, authorization } = require("../middlewares/auth");
-const Roles = require("../constants/roles");
+const { Roles } = require("../constants/roles");
 
 /**
  * @swagger
