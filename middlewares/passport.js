@@ -34,7 +34,6 @@ passport.use(
     async (email, password, done) => {
       try {
         const user = await User.findOne({ email });
-        console.log("aaaa", user);
         if (!user) {
           return done(null, false, { msg: "Email not found" });
         }

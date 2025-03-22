@@ -1,33 +1,28 @@
 const responseSchema = {
   200: {
-    description: "Successful",
+    description: "Successful response",
     content: {
       "application/json": {
         schema: {
           type: "object",
           properties: {
             success: { type: "boolean", example: true },
-            message: {
-              type: "string",
-              example: "get data success",
-            },
+            message: { type: "string", example: "Request was successful" },
+            data: { type: "object" },
           },
         },
       },
     },
   },
   400: {
-    description: "Invalid request",
+    description: "Bad request",
     content: {
       "application/json": {
         schema: {
           type: "object",
           properties: {
             success: { type: "boolean", example: false },
-            message: {
-              type: "string",
-              example: "Invalid request data",
-            },
+            message: { type: "string", example: "Invalid request data" },
           },
         },
       },
@@ -40,11 +35,9 @@ const responseSchema = {
         schema: {
           type: "object",
           properties: {
-            message: { type: "string" },
+            success: { type: "boolean", example: false },
+            message: { type: "string", example: "Unauthorized access" },
           },
-        },
-        example: {
-          message: "Unauthorized",
         },
       },
     },

@@ -3,6 +3,8 @@ const { signinSchema, signinResponse } = require("./schema/userLoginSchemaUI");
 const { UserSchema, userResponse } = require("./schema/userSchemaUI");
 const { courseResponse, courseSchema } = require("./schema/courseSchemaUI");
 const responseSchema = require("./schema/schemaResponse");
+const { unitSchema, unitResponse } = require("./schema/unitSchemaUI");
+const { classSchema } = require("./schema/classSchemaUI");
 
 const options = {
   definition: {
@@ -22,6 +24,8 @@ const options = {
         SigninRequest: signinSchema,
         UserSchema: UserSchema,
         CourseSchema: courseSchema,
+        UnitSchema: unitSchema,
+        ClassSchema: classSchema,
       },
       responses: {
         SigninSuccess: signinResponse[200],
@@ -31,6 +35,8 @@ const options = {
         UserSchemaResponse: userResponse[200],
         CourseSchemaResponse: courseResponse[200],
         CourseSchemaCreateResponse: courseResponse[201],
+        GetAllUnits: unitResponse[200],
+        UnitCreated: unitResponse[201],
       },
       securitySchemes: {
         bearerAuth: {
