@@ -179,15 +179,15 @@ const router = require("express-promise-router")();
 
 /**
  * @swagger
- * /class/delete:
+ * /class/delete/{classID}:
  *   delete:
  *     summary: Xóa một lớp học
  *     tags: [Classes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - in: query
- *         name: id
+ *       - in: path
+ *         name: classID
  *         required: true
  *         schema:
  *           type: string
@@ -278,11 +278,15 @@ router
   .route("/class/filter")
   .get(protect, authorization(Roles.TEACHER), ClassController.filterClass);
 
-  router
+router
   .route("/class/create")
   .post(protect, authorization(Roles.TEACHER), ClassController.createClass);
 router
   .route("/class/update/:classID")
   .put(protect, authorization(Roles.TEACHER), ClassController.updateClass);
+
+router
+  .route("/class/delete/:classID")
+  .delete(protect, authorization(Roles.TEACHER), ClassController.deleteClass);
 
 module.exports = router;

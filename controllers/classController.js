@@ -99,8 +99,8 @@ const updateClass = async (req, res, next) => {
 
 const deleteClass = async (req, res, next) => {
   try {
-    const { classId } = req.params;
-    const deletedClass = await Class.findByIdAndDelete(classId);
+    const { classID } = req.params;
+    const deletedClass = await Class.findByIdAndDelete(classID);
     if (!deletedClass) {
       return res
         .status(404)
